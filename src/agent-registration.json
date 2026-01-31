@@ -1,0 +1,26 @@
+{
+  "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
+  "name": "Dad Jokes Agent",
+  "description": "A paid x402 API that serves premium dad jokes. Get a random joke for $0.001 or multiple jokes for $0.005. Built with Lucid Agents SDK.",
+  "image": "https://dad-jokes-agent-production.up.railway.app/logo.png",
+  "services": [
+    {
+      "name": "web",
+      "endpoint": "https://dad-jokes-agent-production.up.railway.app/"
+    },
+    {
+      "name": "x402",
+      "endpoint": "https://dad-jokes-agent-production.up.railway.app/",
+      "version": "1.0"
+    }
+  ],
+  "x402Support": true,
+  "active": true,
+  "registrations": [
+    {
+      "agentId": 22618,
+      "agentRegistry": "eip155:1:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432"
+    }
+  ],
+  "supportedTrust": ["reputation"]
+}

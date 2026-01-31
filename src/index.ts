@@ -5,6 +5,7 @@ import { wallets } from '@lucid-agents/wallet';
 import { identity } from '@lucid-agents/identity';
 import { payments, paymentsFromEnv } from '@lucid-agents/payments';
 import { z } from 'zod';
+import agentRegistration from './agent-registration.json';
 
 const dadJokes = [
   "Why don't scientists trust atoms? Because they make up everything!",
@@ -58,6 +59,9 @@ async function main() {
     .build();
 
   const { app, addEntrypoint } = await createAgentApp(agent);
+
+  // Serve ERC-8004 agent registration file
+  app.get('/.well-known/agent-registration.json', (c) => c.json(agentRegistration));
 
   addEntrypoint({
     key: 'health',
