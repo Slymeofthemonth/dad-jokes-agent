@@ -49,14 +49,14 @@ async function main() {
     },
   });
 
-  // Paid endpoint - get a dad joke
+  // Paid endpoint - get a dad joke (1000 = $0.001 USDC with 6 decimals)
   addEntrypoint({
     key: 'joke',
     description: 'Get a random dad joke',
     input: z.object({
       category: z.string().optional().describe('Optional joke category'),
     }),
-    price: { amount: '0.001', currency: 'USD' },
+    price: '1000', // 0.001 USDC (6 decimals)
     handler: async (ctx) => {
       const joke = getRandomJoke();
       return {
@@ -69,14 +69,14 @@ async function main() {
     },
   });
 
-  // Paid endpoint - get multiple jokes
+  // Paid endpoint - get multiple jokes (5000 = $0.005 USDC)
   addEntrypoint({
     key: 'jokes',
     description: 'Get multiple random dad jokes',
     input: z.object({
       count: z.number().min(1).max(10).default(3).describe('Number of jokes (1-10)'),
     }),
-    price: { amount: '0.005', currency: 'USD' },
+    price: '5000', // 0.005 USDC (6 decimals)
     handler: async (ctx) => {
       const jokes: string[] = [];
       const seenIndexes = new Set<number>();
@@ -104,10 +104,9 @@ async function main() {
   console.log(`🃏 Dad Jokes Agent running on port ${port}`);
   console.log('Endpoints:');
   console.log('  GET /health - Free health check');
-  console.log('  POST /joke - Get a random dad joke ($0.001)');
-  console.log('  POST /jokes - Get multiple jokes ($0.005)');
+  console.log('  POST /entrypoints/joke/invoke - Get a random dad joke ($0.001)');
+  console.log('  POST /entrypoints/jokes/invoke - Get multiple jokes ($0.005)');
 
-  // Use Bun.serve to actually start the server
   Bun.serve({
     port,
     fetch: app.fetch,
