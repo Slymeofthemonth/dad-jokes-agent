@@ -41,8 +41,9 @@ async function main() {
       config: {
         domain: 'dad-jokes-agent-production.up.railway.app',
         autoRegister: true,
-        chainId: 8453, // Base mainnet
-        rpcUrl: process.env.RPC_URL || 'https://mainnet.base.org',
+        chainId: 1, // Ethereum mainnet
+        rpcUrl: process.env.IDENTITY_RPC_URL || 'https://eth.llamarpc.com',
+        registryAddress: '0x8004A169FB4a3325136EB29fA0ceB6D2e539a432', // ERC-8004 IdentityRegistry
       },
     }))
     .use(payments({ config: paymentsFromEnv() }))
