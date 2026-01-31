@@ -1,6 +1,8 @@
 import { createAgent } from '@lucid-agents/core';
 import { http } from '@lucid-agents/http';
 import { createAgentApp } from '@lucid-agents/hono';
+import { wallets, walletsFromEnv } from '@lucid-agents/wallet';
+import { identity } from '@lucid-agents/identity';
 import { payments, paymentsFromEnv } from '@lucid-agents/payments';
 import { z } from 'zod';
 
@@ -34,6 +36,15 @@ async function main() {
     description: 'A paid API that serves premium dad jokes',
   })
     .use(http())
+    .use(wallets({ config: walletsFromEnv() }))
+    .use(identity({
+      config: {
+        domain: 'dad-jokes-agent-production.up.railway.app',
+        autoRegister: true,
+        chainId: 8453, // Base mainnet
+        rpcUrl: process.env.RPC_URL || 'https://mainnet.base.org',
+      },
+    }))
     .use(payments({ config: paymentsFromEnv() }))
     .build();
 
@@ -49,14 +60,14 @@ async function main() {
     },
   });
 
-  // Paid endpoint - get a dad joke (1000 = $0.001 USDC with 6 decimals)
+  // Paid endpoint - get a dad joke
   addEntrypoint({
     key: 'joke',
     description: 'Get a random dad joke',
     input: z.object({
       category: z.string().optional().describe('Optional joke category'),
     }),
-    price: '0.001', // 0.001 USDC (6 decimals)
+    price: '0.001',
     handler: async (ctx) => {
       const joke = getRandomJoke();
       return {
@@ -69,14 +80,14 @@ async function main() {
     },
   });
 
-  // Paid endpoint - get multiple jokes (5000 = $0.005 USDC)
+  // Paid endpoint - get multiple jokes
   addEntrypoint({
     key: 'jokes',
     description: 'Get multiple random dad jokes',
     input: z.object({
       count: z.number().min(1).max(10).default(3).describe('Number of jokes (1-10)'),
     }),
-    price: '0.005', // 0.005 USDC (6 decimals)
+    price: '0.005',
     handler: async (ctx) => {
       const jokes: string[] = [];
       const seenIndexes = new Set<number>();
