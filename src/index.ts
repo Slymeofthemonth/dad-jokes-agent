@@ -1,8 +1,8 @@
 import { createAgent } from '@lucid-agents/core';
 import { http } from '@lucid-agents/http';
 import { createAgentApp } from '@lucid-agents/hono';
-import { wallets, walletsFromEnv } from '@lucid-agents/wallet';
-import { identity } from '@lucid-agents/identity';
+import { wallets } from '@lucid-agents/wallet';
+import { identity, identityFromEnv } from '@lucid-agents/identity';
 import { payments, paymentsFromEnv } from '@lucid-agents/payments';
 import { z } from 'zod';
 
@@ -36,14 +36,23 @@ async function main() {
     description: 'A paid API that serves premium dad jokes',
   })
     .use(http())
-    .use(wallets({ config: walletsFromEnv() }))
+    .use(wallets({
+      config: {
+        agent: {
+          type: 'local',
+          privateKey: process.env.AGENT_WALLET_PRIVATE_KEY!,
+          chainId: 1, // ETH mainnet for identity registration
+        },
+      },
+    }))
     .use(identity({
       config: {
+        ...identityFromEnv(),
         domain: 'dad-jokes-agent-production.up.railway.app',
         autoRegister: true,
-        chainId: 1, // Ethereum mainnet
+        chainId: 1, // ETH mainnet
         rpcUrl: process.env.IDENTITY_RPC_URL || 'https://eth.llamarpc.com',
-        registryAddress: '0x8004A169FB4a3325136EB29fA0ceB6D2e539a432', // ERC-8004 IdentityRegistry
+        registryAddress: '0x8004A169FB4a3325136EB29fA0ceB6D2e539a432',
       },
     }))
     .use(payments({ config: paymentsFromEnv() }))
