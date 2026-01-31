@@ -56,7 +56,7 @@ async function main() {
     input: z.object({
       category: z.string().optional().describe('Optional joke category'),
     }),
-    price: { amount: '0.001', currency: 'USD' }, // $0.001 per joke
+    price: { amount: '0.001', currency: 'USD' },
     handler: async (ctx) => {
       const joke = getRandomJoke();
       return {
@@ -76,7 +76,7 @@ async function main() {
     input: z.object({
       count: z.number().min(1).max(10).default(3).describe('Number of jokes (1-10)'),
     }),
-    price: { amount: '0.005', currency: 'USD' }, // $0.005 for up to 10 jokes
+    price: { amount: '0.005', currency: 'USD' },
     handler: async (ctx) => {
       const jokes: string[] = [];
       const seenIndexes = new Set<number>();
@@ -99,16 +99,19 @@ async function main() {
     },
   });
 
-  console.log(`🃏 Dad Jokes Agent running on port ${process.env.PORT ?? 3000}`);
+  const port = Number(process.env.PORT ?? 3000);
+  
+  console.log(`🃏 Dad Jokes Agent running on port ${port}`);
   console.log('Endpoints:');
   console.log('  GET /health - Free health check');
   console.log('  POST /joke - Get a random dad joke ($0.001)');
   console.log('  POST /jokes - Get multiple jokes ($0.005)');
 
-  return {
-    port: Number(process.env.PORT ?? 3000),
+  // Use Bun.serve to actually start the server
+  Bun.serve({
+    port,
     fetch: app.fetch,
-  };
+  });
 }
 
-export default main();
+main();
