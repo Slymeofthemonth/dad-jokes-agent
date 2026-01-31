@@ -40,7 +40,8 @@ async function main() {
         agent: {
           type: 'local',
           privateKey: process.env.AGENT_WALLET_PRIVATE_KEY!,
-          chainId: 1, // ETH mainnet for identity
+          chainId: 1, // ETH mainnet
+          rpcUrl: 'https://eth.llamarpc.com',
         },
       },
     }))
