@@ -11,6 +11,8 @@
     "@lucid-agents/core": "latest",
     "@lucid-agents/http": "latest",
     "@lucid-agents/hono": "latest",
+    "@lucid-agents/wallet": "latest",
+    "@lucid-agents/identity": "latest",
     "@lucid-agents/payments": "latest",
     "zod": "^4.0.0"
   },
