@@ -56,7 +56,7 @@ async function main() {
     input: z.object({
       category: z.string().optional().describe('Optional joke category'),
     }),
-    price: '1000', // 0.001 USDC (6 decimals)
+    price: '0.001', // 0.001 USDC (6 decimals)
     handler: async (ctx) => {
       const joke = getRandomJoke();
       return {
@@ -76,7 +76,7 @@ async function main() {
     input: z.object({
       count: z.number().min(1).max(10).default(3).describe('Number of jokes (1-10)'),
     }),
-    price: '5000', // 0.005 USDC (6 decimals)
+    price: '0.005', // 0.005 USDC (6 decimals)
     handler: async (ctx) => {
       const jokes: string[] = [];
       const seenIndexes = new Set<number>();
