@@ -49,7 +49,8 @@ async function main() {
     .use(identity({
       config: {
         domain: 'dad-jokes-agent-production.up.railway.app',
-        autoRegister: true,
+        autoRegister: false, // Already registered: Agent ID 22618
+        agentId: 22618,
         chainId: 1,
         rpcUrl: 'https://eth.llamarpc.com',
         registryAddress: '0x8004A169FB4a3325136EB29fA0ceB6D2e539a432',
