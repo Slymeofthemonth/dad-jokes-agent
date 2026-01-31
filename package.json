@@ -1,0 +1,21 @@
+{
+  "name": "dad-jokes-agent",
+  "version": "1.0.0",
+  "description": "A paid x402 endpoint that serves dad jokes",
+  "type": "module",
+  "scripts": {
+    "start": "bun run src/index.ts",
+    "dev": "bun --watch src/index.ts"
+  },
+  "dependencies": {
+    "@lucid-agents/core": "latest",
+    "@lucid-agents/http": "latest",
+    "@lucid-agents/hono": "latest",
+    "@lucid-agents/payments": "latest",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.0.0"
+  }
+}
